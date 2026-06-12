@@ -1,5 +1,1015 @@
-trojan://86768774-70b2-4c15-80c3-02066fb1e3b6@172.67.73.39:80?encryption=none&type=ws&host=nautica.foolvpn.me&security=none&sni=nautica.foolvpn.me&path=%2F138.2.89.238-43254#%F0%9F%87%B8%F0%9F%87%AC%20Oracle%20Corporation%20WS%20NTLS%20[138.2.89.238]
-vless://fc60147e-76b8-4bc5-b691-90b2da79e3d2@172.67.73.39:80?encryption=none&type=ws&host=nautica.foolvpn.me&security=none&sni=nautica.foolvpn.me&path=%2F146.235.18.248-45137#%F0%9F%87%B8%F0%9F%87%AC%20Oracle%20Corporation%20WS%20NTLS%20[146.235.18.248]
-vless://fc60147e-76b8-4bc5-b691-90b2da79e3d2@172.67.73.39:80?encryption=none&type=ws&host=nautica.foolvpn.me&security=none&sni=nautica.foolvpn.me&path=%2F213.35.100.31-47112#%F0%9F%87%B8%F0%9F%87%AC%20Oracle%20Svenska%20AB%20WS%20NTLS%20[213.35.100.31]
-vless://fc60147e-76b8-4bc5-b691-90b2da79e3d2@172.67.73.39:80?encryption=none&type=ws&host=nautica.foolvpn.me&security=none&sni=nautica.foolvpn.me&path=%2F5.34.176.119-81#%F0%9F%87%B8%F0%9F%87%AC%20Green%20Floid%20LLC%20WS%20NTLS%20[5.34.176.119]
-vless://fc60147e-76b8-4bc5-b691-90b2da79e3d2@172.67.73.39:80?encryption=none&type=ws&host=nautica.foolvpn.me&security=none&sni=nautica.foolvpn.me&path=%2F13.250.131.37-443#%F0%9F%87%B8%F0%9F%87%AC%20Amazon%20Data%20Services%20Singapore%20WS%20NTLS%20[13.250.131.37]
+{
+  "log": {
+    "level": "warn",
+    "timestamp": true
+  },
+  "dns": {
+    "servers": [
+      {
+        "type": "https",
+        "server": "8.8.8.8",
+        "detour": "🌐 Anonymous Multi",
+        "tag": "dns-remote"
+      },
+      {
+        "type": "udp",
+        "server": "8.8.8.8",
+        "server_port": 53,
+        "tag": "dns-direct"
+      },
+      {
+        "type": "fakeip",
+        "tag": "dns-fake",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "domain": [
+          "raw.githubusercontent.com"
+        ],
+        "server": "dns-direct"
+      },
+      {
+        "clash_mode": "Direct",
+        "server": "dns-direct"
+      },
+      {
+        "clash_mode": "Global",
+        "server": "dns-remote"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "rule_set": "geosite-ir"
+          },
+          {
+            "rule_set": "geoip-ir"
+          }
+        ],
+        "action": "route",
+        "server": "dns-direct"
+      },
+      {
+        "rule_set": [
+          "geosite-malware",
+          "geosite-phishing",
+          "geosite-cryptominers",
+          "geosite-category-ads-all"
+        ],
+        "action": "reject"
+      },
+      {
+        "disable_cache": true,
+        "inbound": "tun-in",
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "server": "dns-fake"
+      }
+    ],
+    "strategy": "ipv4_only",
+    "independent_cache": true
+  },
+  "inbounds": [
+    {
+      "type": "tun",
+      "tag": "tun-in",
+      "address": [
+        "172.18.0.1/30",
+        "fdfe:dcba:9876::1/126"
+      ],
+      "mtu": 9000,
+      "auto_route": true,
+      "strict_route": true,
+      "endpoint_independent_nat": true,
+      "stack": "mixed"
+    },
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "0.0.0.0",
+      "listen_port": 2080
+    }
+  ],
+  "outbounds": [
+    {
+      "type": "selector",
+      "tag": "🌐 Anonymous Multi",
+      "outbounds": [
+        "👽 Best Ping 🚀",
+        "VLESS-3b146731",
+        "VLESS-a3feac99",
+        "VLESS-c393ca97",
+        "VLESS-dceeed12",
+        "VLESS-a2d3b523",
+        "VLESS-9657c849",
+        "VLESS-596742aa",
+        "VLESS-cff889a1",
+        "VLESS-abf3b2f3",
+        "VLESS-e8308a3b",
+        "VLESS-5689439c",
+        "VLESS-757398d3",
+        "VLESS-3ab5eede",
+        "VLESS-7d08f83d",
+        "VLESS-298aee0e",
+        "VLESS-0e87af6e",
+        "VLESS-efb0a3d4",
+        "VLESS-c5e04879",
+        "VLESS-4e9cdc90",
+        "VLESS-bb03addd",
+        "VLESS-a908ac17",
+        "VLESS-e2012e41",
+        "VLESS-4d1cbce4",
+        "VLESS-5af2db66",
+        "VLESS-69518a10",
+        "direct"
+      ]
+    },
+    {
+      "type": "direct",
+      "tag": "direct"
+    },
+    {
+      "type": "urltest",
+      "tag": "👽 Best Ping 🚀",
+      "outbounds": [
+        "VLESS-3b146731",
+        "VLESS-a3feac99",
+        "VLESS-c393ca97",
+        "VLESS-dceeed12",
+        "VLESS-a2d3b523",
+        "VLESS-9657c849",
+        "VLESS-596742aa",
+        "VLESS-cff889a1",
+        "VLESS-abf3b2f3",
+        "VLESS-e8308a3b",
+        "VLESS-5689439c",
+        "VLESS-757398d3",
+        "VLESS-3ab5eede",
+        "VLESS-7d08f83d",
+        "VLESS-298aee0e",
+        "VLESS-0e87af6e",
+        "VLESS-efb0a3d4",
+        "VLESS-c5e04879",
+        "VLESS-4e9cdc90",
+        "VLESS-bb03addd",
+        "VLESS-a908ac17",
+        "VLESS-e2012e41",
+        "VLESS-4d1cbce4",
+        "VLESS-5af2db66",
+        "VLESS-69518a10"
+      ],
+      "url": "https://www.gstatic.com/generate_204",
+      "interrupt_exist_connections": false,
+      "interval": "30s"
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-3b146731",
+      "server": "vpn.zorix.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.zorix.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.zorix.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-a3feac99",
+      "server": "vpn.xentra.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.xentra.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.xentra.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-c393ca97",
+      "server": "vpn.cyvora.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.cyvora.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.cyvora.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-dceeed12",
+      "server": "vpn.zentryx.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.zentryx.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.zentryx.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-a2d3b523",
+      "server": "vpn.nexbyte.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.nexbyte.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.nexbyte.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-9657c849",
+      "server": "vless.bagibagi.net",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vless.bagibagi.net"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vless.bagibagi.net",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-596742aa",
+      "server": "free.vlessworker.net",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "free.vlessworker.net"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "free.vlessworker.net",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-cff889a1",
+      "server": "vpn.axora.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.axora.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.axora.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-abf3b2f3",
+      "server": "vpn.nexio.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.nexio.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.nexio.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-e8308a3b",
+      "server": "vpn.novix.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.novix.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.novix.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-5689439c",
+      "server": "vpn.zyrro.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.zyrro.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.zyrro.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-757398d3",
+      "server": "vpn.maria.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.maria.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.maria.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-3ab5eede",
+      "server": "vpn.avrox.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.avrox.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.avrox.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-7d08f83d",
+      "server": "vpn.nytro.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.nytro.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.nytro.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-298aee0e",
+      "server": "vpn.xelvia.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.xelvia.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.xelvia.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-0e87af6e",
+      "server": "vpn.lunoxa.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.lunoxa.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.lunoxa.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-efb0a3d4",
+      "server": "vpn.veronica.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.veronica.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.veronica.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-c5e04879",
+      "server": "vpn.bronet.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.bronet.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.bronet.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-4e9cdc90",
+      "server": "vpn.avrix.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.avrix.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.avrix.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-bb03addd",
+      "server": "vpn.cyvox.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.cyvox.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.cyvox.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-a908ac17",
+      "server": "vpn.bagibagi.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.bagibagi.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.bagibagi.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-e2012e41",
+      "server": "vpn.gonku.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.gonku.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.gonku.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-4d1cbce4",
+      "server": "vpn.salin.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.salin.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.salin.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-5af2db66",
+      "server": "vpn.nganu.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "vpn.nganu.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "vpn.nganu.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    },
+    {
+      "type": "vless",
+      "tag": "VLESS-69518a10",
+      "server": "wes.lamaran.web.id",
+      "server_port": 443,
+      "uuid": "05bed567-f759-4c10-9587-af39f83272d3",
+      "flow": "",
+      "transport": {
+        "type": "ws",
+        "path": "/ALL",
+        "headers": {
+          "Host": "wes.lamaran.web.id"
+        }
+      },
+      "tls": {
+        "enabled": true,
+        "server_name": "wes.lamaran.web.id",
+        "insecure": false,
+        "alpn": [
+          "http/1.1"
+        ],
+        "record_fragment": false,
+        "utls": {
+          "enabled": true,
+          "fingerprint": "randomized"
+        }
+      }
+    }
+  ],
+  "route": {
+    "rules": [
+      {
+        "ip_cidr": "172.18.0.2",
+        "action": "hijack-dns"
+      },
+      {
+        "clash_mode": "Direct",
+        "outbound": "direct"
+      },
+      {
+        "clash_mode": "Global",
+        "outbound": "🌐 Anonymous Multi"
+      },
+      {
+        "action": "sniff"
+      },
+      {
+        "protocol": "dns",
+        "action": "hijack-dns"
+      },
+      {
+        "network": "udp",
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "geosite-malware",
+          "geosite-phishing",
+          "geosite-cryptominers",
+          "geosite-category-ads-all"
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "geoip-malware",
+          "geoip-phishing"
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "geosite-ir"
+        ],
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "geoip-ir"
+        ],
+        "action": "route",
+        "outbound": "direct"
+      }
+    ],
+    "rule_set": [
+      {
+        "type": "remote",
+        "tag": "geosite-malware",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-malware.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-malware",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-malware.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-phishing",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-phishing.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-phishing",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-phishing.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-cryptominers",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-cryptominers.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-category-ads-all",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-category-ads-all.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-ir",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geosite-ir.srs",
+        "download_detour": "direct"
+      },
+      {
+        "type": "remote",
+        "tag": "geoip-ir",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Chocolate4U/Iran-sing-box-rules/rule-set/geoip-ir.srs",
+        "download_detour": "direct"
+      }
+    ],
+    "auto_detect_interface": true,
+    "default_domain_resolver": {
+      "server": "dns-direct",
+      "strategy": "prefer_ipv4",
+      "rewrite_ttl": 60
+    },
+    "final": "🌐 Anonymous Multi"
+  },
+  "ntp": {
+    "enabled": true,
+    "server": "time.cloudflare.com",
+    "server_port": 123,
+    "domain_resolver": "dns-direct",
+    "interval": "30m",
+    "write_to_system": false
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "store_fakeip": true
+    },
+    "clash_api": {
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "ui",
+      "external_ui_download_url": "https://github.com/MetaCubeX/metacubexd/archive/refs/heads/gh-pages.zip",
+      "external_ui_download_detour": "direct",
+      "default_mode": "Rule"
+    }
+  }
+}
