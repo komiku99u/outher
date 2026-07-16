@@ -118,7 +118,7 @@
       "outbounds": [
         "VLESS-3b146731",
         "VLESS-a3feac99",
-        "VLESS-c393ca97",
+        "VLESS-c393ca97"
       ],
       "url": "https://www.gstatic.com/generate_204",
       "interrupt_exist_connections": false,
